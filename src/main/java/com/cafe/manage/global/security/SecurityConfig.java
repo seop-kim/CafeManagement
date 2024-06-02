@@ -1,6 +1,7 @@
 package com.cafe.manage.global.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,21 +20,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                         .requestMatchers(new AntPathRequestMatcher("/member/login")).permitAll()
+                         .requestMatchers(new AntPathRequestMatcher("/member/join")).permitAll()
+                         .requestMatchers(new AntPathRequestMatcher("/cafe/**")).authenticated()
+                         .requestMatchers(new AntPathRequestMatcher("/**")).authenticated()
+                 )
+
                 .cors(cors -> cors.configure(http))
-                .csrf(AbstractHttpConfigurer::disable)
+
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/member/login")
                         .usernameParameter("nickname")
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/cafe")
+                )
+
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true))
+                        .logoutSuccessUrl("/member/login")
+                        .invalidateHttpSession(true)
+                )
         ;
 
         return http.build();

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html layout:decorate="~{global/layout}">
+<body>
+<div layout:fragment="header">
+    <h1>카페 관리 시스템</h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/cafe}">카페 목록</a></li>
+            <li><a th:href="@{/cafe/create}">카페 등록</a></li>
+        </ul>
+    </nav>
+    <aside>
+        <a th:href="@{/member/logout}">로그아웃</a>
+    </aside>
+</div>
+</body>
+</html>

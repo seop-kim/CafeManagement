@@ -5,6 +5,7 @@ spring:
       local:
         - file
         - secret
+
 logging:
   level:
     org.hibernate.SQL: DEBUG

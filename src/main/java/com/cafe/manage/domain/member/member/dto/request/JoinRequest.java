@@ -12,9 +12,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-    @NotBlank(message = "연락처는 필수 항목입니다.")
-    private String phone;
+public class JoinRequest {
+    @NotBlank(message = "닉네임은 필수 항목입니다.")
+    private String nickname;
 
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
     private String password;

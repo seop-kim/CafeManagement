@@ -1,0 +1,21 @@
+<html layout:decorate="~{global/user_layout}">
+<head>
+    <title>Login</title>
+</head>
+<body layout:fragment="content">
+<h2>Login</h2>
+<form th:action method="post" th:object="${loginRequest}">
+    <div>
+        <label for="nickname">nickname:</label>
+        <input type="text" id="nickname" name="nickname">
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<html layout:decorate="~{global/user_layout}">
+<head>
+    <title>Cafe Create</title>
+</head>
+<body layout:fragment="content">
+<h2>Cafe Create</h2>
+<form th:action method="post" th:object="${cafeCreateRequest}">
+    <div>
+        <label for="name">name:</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <button type="submit">create</button>
+    </div>
+</form>
+</body>
+</html>
