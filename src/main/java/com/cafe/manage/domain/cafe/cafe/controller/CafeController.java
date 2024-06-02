@@ -1,7 +1,9 @@
 package com.cafe.manage.domain.cafe.cafe.controller;
 
 import com.cafe.manage.domain.cafe.cafe.dto.request.CafeCreateRequest;
+import com.cafe.manage.domain.cafe.cafe.dto.request.CafeCustomerRequest;
 import com.cafe.manage.domain.cafe.cafe.dto.response.CafeListResponse;
+import com.cafe.manage.domain.cafe.cafe.dto.response.CafeResponse;
 import com.cafe.manage.domain.cafe.cafe.service.CafeService;
 import com.cafe.manage.global.authentication.UserPrincipal;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,6 +30,16 @@ public class CafeController {
         List<CafeListResponse> cafes = cafeService.getCafes(user.getMember());
         model.addAttribute("cafes", cafes);
         return "domain/cafe/cafe/list";
+    }
+
+    @GetMapping("/{id}")
+    public String getCafe(@AuthenticationPrincipal UserPrincipal user,
+                          @PathVariable Long id,
+                          CafeCustomerRequest cafeCustomerRequest,
+                          Model model) {
+        CafeResponse cafe = cafeService.getCafe(user.getMember(), id);
+        model.addAttribute("cafe", cafe);
+        return "domain/cafe/cafe/detail";
     }
 
     @GetMapping("/create")

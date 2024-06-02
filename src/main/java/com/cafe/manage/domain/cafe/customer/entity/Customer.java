@@ -28,7 +28,4 @@ public class Customer extends BaseEntity {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<CafeCustomer> cafeCustomers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Coupon> coupons = new ArrayList<>();
 }

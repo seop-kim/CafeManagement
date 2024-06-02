@@ -30,6 +30,12 @@ public class Cafe extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @Comment("쿠폰 적립 기준")
+    private int changeCoupon;
+
+    @Comment("쿠폰 할인 금액")
+    private long couponAmount;
+
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeCustomer> cafeCustomers = new ArrayList<>();
 }

@@ -2,13 +2,13 @@ package com.cafe.manage.domain.cafe.cafe.service;
 
 import com.cafe.manage.domain.cafe.cafe.dto.request.CafeCreateRequest;
 import com.cafe.manage.domain.cafe.cafe.dto.response.CafeListResponse;
+import com.cafe.manage.domain.cafe.cafe.dto.response.CafeResponse;
 import com.cafe.manage.domain.cafe.cafe.entity.Cafe;
 import com.cafe.manage.domain.cafe.cafe.repository.CafeRepository;
 import com.cafe.manage.domain.cafe.cafe_customer.repository.CafeCustomerRepository;
 import com.cafe.manage.domain.member.member.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +35,14 @@ public class CafeService {
          */
     }
 
+    public CafeResponse getCafe(Member member, Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new IllegalArgumentException("cafe is null"));
+
+        getCafeValidate(cafe, member);
+        return CafeResponse.of(cafe);
+    }
+
     @Transactional
     public void createCafe(CafeCreateRequest request, Member member) {
         createValidate(request);
@@ -49,6 +57,12 @@ public class CafeService {
     private void createValidate(CafeCreateRequest request) {
         if (request.getName().isEmpty()) {
             throw new IllegalArgumentException("name is empty");
+        }
+    }
+
+    private void getCafeValidate(Cafe cafe, Member member) {
+        if (!cafe.getMember().equals(member)) {
+            throw new IllegalStateException("no atuthentification");
         }
     }
 }

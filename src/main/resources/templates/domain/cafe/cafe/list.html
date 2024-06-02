@@ -13,10 +13,11 @@
     </tr>
     </thead>
     <tbody>
-    <!-- 반복문을 사용하여 CafeListResponse 객체의 리스트를 출력 -->
     <tr th:each="cafe : ${cafes}">
         <td th:text="${cafe.id}"></td>
-        <td th:text="${cafe.name}"></td>
+        <td>
+            <a th:href="@{|/cafe/${cafe.id}|}" th:text="${cafe.name}"></a>
+        </td>
         <td th:text="${cafe.customerCount}"></td>
     </tr>
     </tbody>
