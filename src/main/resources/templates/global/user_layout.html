@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html layout:decorate="~{global/layout}">
 <body>
-<div layout:fragment="header">
-    <h1>카페 관리 시스템</h1>
-    <nav>
-        <ul>
-            <li><a th:href="@{/cafe}">카페 목록</a></li>
-            <li><a th:href="@{/cafe/create}">카페 등록</a></li>
+<div layout:fragment="header" style="background-color: #000000; color: #fff; padding: 20px;">
+    <h1 style="text-align: center; margin-bottom: 20px;">카페 관리 시스템</h1>
+    <nav style="text-align: center; margin-bottom: 20px;">
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="display: inline; margin-right: 20px;"><a th:href="@{/cafe}" style="text-decoration: none; color: #fff;">카페 목록</a></li>
+            <li style="display: inline; margin-right: 20px;" ><a th:href="@{/cafe/create}" style="text-decoration: none; color: #fff;">카페 등록</a></li>
+            <li style="display: inline;"><a th:href="@{/member/logout}" style="text-decoration: none; color: #fff;">로그아웃</a></li>
         </ul>
     </nav>
-    <aside>
-        <a th:href="@{/member/logout}">로그아웃</a>
-    </aside>
 </div>
+
 </body>
 </html>

@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -23,7 +24,31 @@ public class Coupon extends BaseEntity {
     @OneToOne(mappedBy = "coupon")
     private CafeCustomer cafeCustomer;
 
-    private int couponCount;
+    @Builder.Default
+    private Long couponCount = 0L;
 
-    private int stampCount;
+    @Builder.Default
+    private Long stampCount = 0L;
+
+    public void addStamp(Long stampCount) {
+        if (stampCount == 0) {
+            return;
+        }
+
+        this.stampCount += stampCount;
+        updateStamp();
+    }
+
+    private void updateStamp() {
+        int changeStampToCouponCount = this.cafeCustomer.getCafe().getChangeCoupon();
+
+        while (this.stampCount >= changeStampToCouponCount) {
+            this.stampCount -= changeStampToCouponCount;
+            this.couponCount += 1;
+        }
+    }
+
+    public void subtractCoupon(int couponCount) {
+        this.couponCount -= couponCount;
+    }
 }

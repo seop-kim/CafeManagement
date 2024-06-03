@@ -49,6 +49,8 @@ public class CafeService {
         Cafe cafe = Cafe.builder()
                 .member(member)
                 .name(request.getName())
+                .couponAmount(request.getCouponAmount())
+                .changeCoupon(request.getChangeCoupon())
                 .build();
 
         cafeRepository.save(cafe);

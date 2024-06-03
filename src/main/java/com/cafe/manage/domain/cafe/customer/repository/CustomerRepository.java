@@ -1,7 +1,6 @@
 package com.cafe.manage.domain.cafe.customer.repository;
 
 import com.cafe.manage.domain.cafe.customer.entity.Customer;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

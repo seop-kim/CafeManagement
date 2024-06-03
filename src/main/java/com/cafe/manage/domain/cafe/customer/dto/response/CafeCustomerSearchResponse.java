@@ -12,21 +12,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CafeCustomerResponse {
+public class CafeCustomerSearchResponse {
     private Long id;
     private String name;
     private CafeCustomerListResponse customer;
 
-    public static CafeCustomerResponse of(Cafe cafe, CafeCustomer cafeCustomer) {
-        return CafeCustomerResponse.builder()
+    public static CafeCustomerSearchResponse of(Cafe cafe, CafeCustomer cafeCustomer) {
+        return CafeCustomerSearchResponse.builder()
                 .id(cafe.getId())
                 .name(cafe.getName())
                 .customer(CafeCustomerListResponse.of(cafeCustomer))
                 .build();
     }
 
-    public static CafeCustomerResponse of(CafeCustomer cafeCustomer) {
-        return CafeCustomerResponse.builder()
+    public static CafeCustomerSearchResponse of(CafeCustomer cafeCustomer) {
+        return CafeCustomerSearchResponse.builder()
                 .id(cafeCustomer.getCafe().getId())
                 .name(cafeCustomer.getCafe().getName())
                 .customer(CafeCustomerListResponse.of(cafeCustomer))

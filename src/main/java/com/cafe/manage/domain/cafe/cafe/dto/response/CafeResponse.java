@@ -2,13 +2,10 @@ package com.cafe.manage.domain.cafe.cafe.dto.response;
 
 import com.cafe.manage.domain.cafe.cafe.entity.Cafe;
 import com.cafe.manage.domain.cafe.cafe_customer.entity.CafeCustomer;
-import com.cafe.manage.domain.cafe.customer.dto.response.CafeCustomerResponse;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
 
 @Getter
 @Builder

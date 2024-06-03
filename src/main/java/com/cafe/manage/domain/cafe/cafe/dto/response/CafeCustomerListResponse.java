@@ -1,6 +1,7 @@
 package com.cafe.manage.domain.cafe.cafe.dto.response;
 
 import com.cafe.manage.domain.cafe.cafe_customer.entity.CafeCustomer;
+import com.cafe.manage.domain.cafe.coupon.entity.Coupon;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

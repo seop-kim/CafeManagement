@@ -8,6 +8,8 @@ import com.cafe.manage.domain.cafe.cafe_customer.entity.CafeCustomer;
 import com.cafe.manage.domain.cafe.cafe_customer.repository.CafeCustomerRepository;
 import com.cafe.manage.domain.cafe.coupon.entity.Coupon;
 import com.cafe.manage.domain.cafe.coupon.repository.CouponRepository;
+import com.cafe.manage.domain.cafe.customer.dto.request.CafeCustomerStampRequest;
+import com.cafe.manage.domain.cafe.customer.dto.response.CafeCustomerDetailResponse;
 import com.cafe.manage.domain.cafe.customer.entity.Customer;
 import com.cafe.manage.domain.cafe.customer.repository.CustomerRepository;
 import java.util.regex.Pattern;
@@ -50,11 +52,33 @@ public class CustomerService {
         return CafeResponse.of(cafeCustomer);
     }
 
+    public CafeCustomerDetailResponse getCafeCustomer(Long id) {
+        CafeCustomer customer = cafeCustomerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no customer"));
+        return CafeCustomerDetailResponse.of(customer);
+    }
+
+    @Transactional
+    public CafeCustomerDetailResponse cafeCustomerRedeem(CafeCustomerStampRequest cafeCustomerStampRequest) {
+        CafeCustomer customer = cafeCustomerRepository.findById(cafeCustomerStampRequest.getCafeCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("no customer"));
+
+        if (cafeCustomerStampRequest.getAddStampCount() != null && cafeCustomerStampRequest.getAddStampCount() != 0) {
+            customer.getCoupon().addStamp(cafeCustomerStampRequest.getAddStampCount());
+        }
+
+        if (!cafeCustomerStampRequest.getSelectedCouponCount().isEmpty()) {
+            int subtractCoupon = cafeCustomerStampRequest.getSelectedCouponCount().size();
+            customer.getCoupon().subtractCoupon(subtractCoupon);
+        }
+        return CafeCustomerDetailResponse.of(customer);
+    }
+
     private Customer getCustomer(String phone) {
         Customer customer = customerRepository.findByPhone(phone).orElseGet(() ->
                 Customer.builder()
-                .phone(phone)
-                .build());
+                        .phone(phone)
+                        .build());
 
         customerRepository.save(customer);
         return customer;

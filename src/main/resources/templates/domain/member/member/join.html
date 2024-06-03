@@ -1,23 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Title</title>
-    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
+    <title>Join</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px; /* 가로 길이 조정 */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px); /* 입력창의 너비 조정 */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var nickname = document.getElementById("nickname").value;
+            var password = document.getElementById("password").value;
+
+            if (nickname === "" || password === "") {
+                alert("Please enter both nickname and password.");
+                return false; // 폼 전송을 취소함
+            }
+            return true; // 폼 전송을 진행함
+        }
+    </script>
 </head>
 <body>
-<h2>Join</h2>
-<form th:action method="post" th:object="${joinRequest}">
-    <div>
-        <label for="nickname">nickname:</label>
-        <input type="text" id="nickname" name="nickname">
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-    </div>
-    <div>
-        <button type="submit">Join</button>
-    </div>
-</form>
+<div class="container">
+    <h2>Join</h2>
+    <form th:action method="post" th:object="${joinRequest}" onsubmit="return validateForm()">
+        <div>
+            <label for="nickname">Nickname:</label>
+            <input type="text" id="nickname" name="nickname" placeholder="Enter your nickname">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+        </div>
+        <div>
+            <button type="submit">Join</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
