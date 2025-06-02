@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html layout:decorate="~{global/user_layout}">
+<head>
+    <title>Customer Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .stamp-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .stamp-card {
+            display: inline-block;
+            border: 2px solid #4CAF50;
+            border-radius: 50%;
+            padding: 10px;
+            margin: 2px;
+            text-align: center;
+            width: 25px;
+            height: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .stamp-card span {
+            font-size: 10px;
+        }
+
+        .coupon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .coupon-card {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px;
+            text-align: center;
+            width: 100px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .coupon-card:hover {
+            transform: scale(1.05);
+        }
+
+        .coupon-checkbox {
+            display: none;
+        }
+
+        .coupon-label {
+            display: block;
+            cursor: pointer;
+        }
+
+        .coupon-card.selected {
+            border-color: red;
+            background-color: #ffe7e7;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var checkboxes = document.querySelectorAll('.coupon-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (checkbox.checked) {
+                        checkbox.closest('.coupon-card').classList.add('selected');
+                    } else {
+                        checkbox.closest('.coupon-card').classList.remove('selected');
+                    }
+                });
+
+                checkbox.dispatchEvent(new Event('change'));
+            });
+
+            var cards = document.querySelectorAll('.coupon-card');
+            cards.forEach(function(card) {
+                card.addEventListener('click', function() {
+                    var checkbox = card.querySelector('.coupon-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event('change'));
+                });
+            });
+        });
+    </script>
+</head>
+<body layout:fragment="content">
+<div class="container">
+    <h2>회원 상세 페이지</h2>
+    <div>
+        <p>카페명 : <a th:href="@{|/cafe/${customer.id}|}" th:text="${customer.cafeName}"></a></p>
+
+        <br>
+
+        <p>회원 연락처 : <span th:text="${customer.phone}"></span></p>
+
+        <br>
+
+        <p>회원 보유 스탬프</p>
+        <div th:if="${customer.stampCount > 0}" class="stamp-container">
+            <div th:each="i : ${#numbers.sequence(1, customer.stampCount)}">
+                <div class="stamp-card">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <p>회원 보유 쿠폰</p>
+        <form th:action="@{/customer/redeem}" method="post" th:object="${cafeCustomerStampRequest}">
+            <input type="hidden" id="cafeCustomerId" name="cafeCustomerId" th:value="${customer.cafeCustomerId}"/>
+            <div th:if="${customer.couponCount > 0}" class="coupon-container">
+                <div th:each="i : ${#numbers.sequence(1, customer.couponCount)}">
+                    <div class="coupon-card">
+                        <label class="coupon-label">
+                            <input class="coupon-checkbox" type="checkbox" name="selectedCouponCount" value="1" />
+                            Coupon
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="addStampCount">적립할 스탬프 수 : </label>
+                <input type="number" id="addStampCount" name="addStampCount">
+            </div>
+
+            <br>
+
+            <button type="submit">스탬프 적립 및 쿠폰 사용</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
